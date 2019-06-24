@@ -1,13 +1,19 @@
 defmodule FreshaStyleGuide.MixProject do
   use Mix.Project
 
+  @description "Official style guide for Elixir and Phoenix projects at Fresha"
+  @github_url "https://github.com/surgeventures/elixir"
+
   def project do
     [
       app: :fresha_style_guide,
-      version: "2.0.0",
+      version: "0.1.0",
       elixir: "~> 1.8",
+      name: "Fresha Style Guide",
+      description: @description,
       deps: deps(),
-      docs: docs()
+      docs: docs(),
+      package: package()
     ]
   end
 
@@ -26,6 +32,16 @@ defmodule FreshaStyleGuide.MixProject do
   defp docs do
     [
       main: "FreshaStyleGuide"
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: ["Karol Słuszniak"],
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => @github_url
+      }
     ]
   end
 end
