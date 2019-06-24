@@ -105,44 +105,6 @@ defmodule FreshaStyleGuide.CodeStyle do
   def doc_spacing, do: nil
 
   @doc """
-  Reuse directives against same module should be grouped with `{}` syntax and sorted A-Z.
-
-  ## Reasoning
-
-  The fresh new grouping feature for `alias`, `import`, `require` and `use` allows to make multiple
-  reuses from single module shorter, more declarative and easier to comprehend. It's just a
-  challenge to use this feature consistently, hence this rule.
-
-  Keeping sub-module names in separate lines (even when they could fit a single line) is an
-  additional investment for the future - to have clean diffs when more modules will get added. It's
-  also easier to keep them in alphabetical order when they're in separate lines from day one.
-
-  ## Examples
-
-  Preferred:
-
-      alias Toolbox.{
-        Creator,
-        Deletor,
-        Other,
-      }
-      alias SomeOther.Mod
-
-  Short but not so future-proof:
-
-      alias Toolbox.{Creator, Deletor, Other}
-
-  Classical but inconsistent and not so future-proof:
-
-      alias Toolbox.Creator
-      alias Toolbox.Deletor
-      alias SomeOther.Mod
-      alias Toolbox.Other
-
-  """
-  def reuse_directive_grouping, do: nil
-
-  @doc """
   Per-function usage of reuse directives should be preferred over module-wide usage.
 
   ## Reasoning
@@ -288,7 +250,9 @@ defmodule FreshaStyleGuide.CodeStyle do
 
   Preferred:
 
-      use Helpers.Thing import Helpers.Other alias Helpers.Tool
+      use Helpers.Thing
+      import Helpers.Other
+      alias Helpers.Tool
 
   Out of order:
 
@@ -338,7 +302,7 @@ defmodule FreshaStyleGuide.CodeStyle do
   def reuse_directive_spacing, do: nil
 
   @doc """
-  RESTful actions should be placed in `I S N C E U D` order in controllers and their tests.
+  Controller actions should be placed in `I S N C E U D` order in controllers and their tests.
 
   ## Reasoning
 
@@ -396,7 +360,7 @@ defmodule FreshaStyleGuide.CodeStyle do
     respectively.
 
   """
-  def restful_action_order, do: nil
+  def controller_action_order, do: nil
 
   @doc """
   Documentation in `@doc` and `@moduledoc` should start with an one-line summary sentence.
@@ -602,7 +566,7 @@ defmodule FreshaStyleGuide.CodeStyle do
       raise MyError, {1, 2}
 
   """
-  def exception_structure, do: nil
+  def error_struct_impl, do: nil
 
   @doc """
   Hardcoded word (both string and atom) lists should be written using the `~w` sigil.
@@ -625,7 +589,7 @@ defmodule FreshaStyleGuide.CodeStyle do
       [:one, :two, :three]
 
   """
-  def list_format, do: nil
+  def word_list_format, do: nil
 
   @doc """
   Exception modules (and only them) should be named with the `Error` suffix.
@@ -656,7 +620,7 @@ defmodule FreshaStyleGuide.CodeStyle do
       end
 
   """
-  def exception_naming, do: nil
+  def error_name_suffix, do: nil
 
   @doc """
   Basic happy case in a test file or scope should be placed on top of other cases.
@@ -698,33 +662,6 @@ defmodule FreshaStyleGuide.CodeStyle do
 
   """
   def test_happy_case_placement, do: nil
-
-  @doc """
-  Pipe chains must be aligned into multiple lines.
-
-  ## Reasoning
-
-  This comes from general preference of vertical spacing over horizontal spacing. This ensures that
-  the code is readable and not too condensed. Also, it's easier to modify or extend multi-line
-  chains, because they don't require re-aligning the whole thing.
-
-  By the way, single-line chains look kinda like a code copied from `iex` in a hurry, which is only
-  fine when the building was on fire during the coding session.
-
-  ## Examples
-
-  Preferred:
-
-      user
-      |> reset_password()
-      |> send_password_reset_email()
-
-  Too condensed:
-
-      user |> reset_password() |> send_password_reset_email()
-
-  """
-  def pipe_chain_alignment, do: nil
 
   @doc """
   Modules referenced in typespecs should be aliased.

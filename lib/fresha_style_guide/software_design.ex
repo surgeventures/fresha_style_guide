@@ -106,49 +106,6 @@ defmodule FreshaStyleGuide.SoftwareDesign do
   def with_else_redundancy, do: nil
 
   @doc """
-  Matches in a `with-else` block should be placed in occurrence order.
-
-  ## Reasoning
-
-  Doing this will make it much easier to reason about the whole flow of the `with` block, which
-  tends to be quite complex and a core of flow control.
-
-  ## Examples
-
-  Preferred:
-
-      defmodule RegistrationService do
-        def call(attrs) do
-          with {:ok, user} <- CreateUserFromAttributesService.call(attrs),
-               :ok <- SendUserWelcomeEmailService.call(user)
-          do
-            {:ok, user}
-          else
-            {:error, changeset = %Ecto.Changeset{}} -> {:error, changeset}
-            {:error, :not_available} -> {:error, :not_available}
-          end
-        end
-      end
-
-  Unclear flow:
-
-      defmodule RegistrationService do
-        def call(attrs) do
-          with {:ok, user} <- CreateUserFromAttributesService.call(attrs),
-               :ok <- SendUserWelcomeEmailService.call(user)
-          do
-            {:ok, user}
-          else
-            {:error, :not_available} -> {:error, :not_available}
-            {:error, changeset = %Ecto.Changeset{}} -> {:error, changeset}
-          end
-        end
-      end
-
-  """
-  def with_else_order, do: nil
-
-  @doc """
   Errors from external contexts should be mapped to have a meaning in the current context.
 
   ## Reasoning
