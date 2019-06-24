@@ -433,37 +433,6 @@ defmodule FreshaStyleGuide.SoftwareDesign do
   def predicate_function_naming, do: nil
 
   @doc """
-  Function clauses should be grouped together, ie. without a blank line between them.
-
-  ## Reasoning
-
-  This allows to easily read a whole set of specific function's clauses and spot the start and end
-  of the whole story of that specific function.
-
-  ## Examples
-
-  Preferred:
-
-      def active?(%User{confirmed_at: nil}), do: false
-      def active?(%User{}), do: true
-
-      def deleted?(%User{deleted_at: nil}), do: false
-      def deleted?(%User{}), do: true
-
-  No obvious visual bounds for each function:
-
-      def active?(%User{confirmed_at: nil}), do: false
-
-      def active?(%User{}), do: true
-
-      def deleted?(%User{deleted_at: nil}), do: false
-
-      def deleted?(%User{}), do: true
-
-  """
-  def function_clause_grouping, do: nil
-
-  @doc """
   Functions should be grouped by their relationship rather than by "public then private".
 
   ## Reasoning
