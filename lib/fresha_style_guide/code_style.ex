@@ -4,46 +4,6 @@ defmodule FreshaStyleGuide.CodeStyle do
   """
 
   @doc """
-  Vertical blocks should be preferred over horizontal blocks.
-
-  ## Reasoning
-
-  There's often more than one way to achieve the same and the difference is in fitting things
-  horizontally through indentation vs vertically through function composition. This rule is about
-  preference of the latter over the former in order to avoid crazy indentation, have more smaller
-  functions, which makes for a code easier to understand and extend.
-
-  ## Examples
-
-  Too much crazy indentation to fit everything in one function:
-
-      defp map_array(array) do
-        array
-        |> Enum.uniq
-        |> Enum.map(fn array_item ->
-             if is_binary(array_item) do
-               array_item <> " (changed)"
-             else
-               array_item + 1
-             end
-           end)
-      end
-
-  Preferred refactor of the above:
-
-      defp map_array(array) do
-        array
-        |> Enum.uniq
-        |> Enum.map(&map_array_item/1)
-      end
-
-      defp map_array_item(array_item) when is_binary(array_item), do: array_item <> " (changed)"
-      defp map_array_item(array_item), do: array_item + 1
-
-  """
-  def block_alignment, do: nil
-
-  @doc """
   Inline blocks should be preferred for simple code that fits one line.
 
   ## Reasoning
@@ -70,64 +30,6 @@ defmodule FreshaStyleGuide.CodeStyle do
 
   """
   def inline_block_usage, do: nil
-
-  @doc """
-  Pipe chains must be used only for multiple function calls.
-
-  ## Reasoning
-
-  The whole point of pipe chain is that... well, it must be a *chain*. As such, single function call
-  does not qualify. Reversely, nesting multiple calls instead of piping them seriously limits the
-  readability of the code.
-
-  ## Examples
-
-  Preferred for 2 and more function calls:
-
-      arg
-      |> func()
-      |> other_func()
-
-  Preferred for 1 function call:
-
-      yet_another_func(a, b)
-
-  Not preferred:
-
-      other_func(func(arg))
-
-      a |> yet_another_func(b)
-
-  """
-  def pipe_chain_usage, do: nil
-
-  @doc """
-  Pipe chains must be started with a plain value.
-
-  ## Reasoning
-
-  The whole point of pipe chain is to push some value through the chain, end to end. In order to do
-  that consistently, it's best to keep away from starting chains with function calls.
-
-  This also makes it easier to see if pipe operator should be used at all - since chain with 2 pipes
-  may get reduced to just 1 pipe when inproperly started with function call, it may falsely look
-  like a case when pipe should not be used at all.
-
-  ## Examples
-
-  Preferred:
-
-      arg
-      |> func()
-      |> other_func()
-
-  Chain that lost its reason to live:
-
-      func(arg)
-      |> other_func()
-
-  """
-  def pipe_chain_start, do: nil
 
   @doc """
   Single blank line must be inserted after `@moduledoc`.
@@ -201,53 +103,6 @@ defmodule FreshaStyleGuide.CodeStyle do
 
   """
   def doc_spacing, do: nil
-
-  @doc """
-  Aliases should be preferred over using full module name.
-
-  ## Reasoning
-
-  Aliasing modules makes code more compact and easier to read. They're even more beneficial as the
-  number of uses of aliased module grows.
-
-  That's of course assuming they don't override other used modules or ones that may be used in the
-  future (such as stdlib's `IO` or similar).
-
-  ## Examples
-
-  Preferred:
-
-      def create(params)
-        alias Toolbox.Creator
-
-        params
-        |> Creator.build()
-        |> Creator.call()
-        |> Toolbox.IO.write()
-      end
-
-  Not so DRY:
-
-      def create(params)
-        params
-        |> Toolbox.Creator.build()
-        |> Toolbox.Creator.call()
-        |> Toolbox.IO.write()
-      end
-
-  Overriding standard library:
-
-      def create(params)
-        alias Toolbox.IO
-
-        params
-        |> Toolbox.Creator.build()
-        |> Toolbox.Creator.call()
-        |> IO.write()
-      end
-
-  """
-  def alias_usage, do: nil
 
   @doc """
   Reuse directives against same module should be grouped with `{}` syntax and sorted A-Z.
@@ -849,10 +704,9 @@ defmodule FreshaStyleGuide.CodeStyle do
 
   ## Reasoning
 
-  This comes from general preference of vertical spacing over horizontal spacing, expressed across
-  this guide by rules such as `Surgex.Guide.CodeStyle.block_alignment/0`. This ensures that the code
-  is readable and not too condensed. Also, it's easier to modify or extend multi-line chains,
-  because they don't require re-aligning the whole thing.
+  This comes from general preference of vertical spacing over horizontal spacing. This ensures that
+  the code is readable and not too condensed. Also, it's easier to modify or extend multi-line
+  chains, because they don't require re-aligning the whole thing.
 
   By the way, single-line chains look kinda like a code copied from `iex` in a hurry, which is only
   fine when the building was on fire during the coding session.

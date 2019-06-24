@@ -470,56 +470,6 @@ defmodule FreshaStyleGuide.SoftwareDesign do
   def function_order, do: nil
 
   @doc """
-  Functions should not include more than one level of block nesting.
-
-  ## Reasoning
-
-  Constructs like `with`, `case`, `cond`, `if` or `fn` often need their own vertical space in order
-  to make them readable, avoid cluttering and explicitly express dependencies needed by each block.
-  Therefore, if they appear within each other, it should be preferred to extract the nested logic to
-  separate function. This will often yield a good chance to replace some of these constructs with
-  preferred solution of pattern matching function arguments.
-
-  ## Examples
-
-  Preferred:
-
-      def calculate_total_cart_price(cart, items_key \\\\ :items, omit_below \\\\ 0) do
-        reduce_cart_items_price(cart[items_key], omit_below)
-      end
-
-      defp sum_cart_items_price(nil, _omit_below), do: 0
-      defp sum_cart_items_price(items, omit_below) do
-        Enum.reduce(items, 0, &reduce_cart_item_price(&1, &2, omit_below))
-      end
-
-      defp reduce_cart_item_price(%{price: price}, total, omit_below) when price < omit_below do
-        total
-      end
-      defp reduce_cart_item_price(%{price: price}, total, _omit_below) do
-        total + price
-      end
-
-  Cluttered and without obvious variable dependencies (`items_key` is not used in the deepest block
-  while `omit_below` is):
-
-      def calculate_total_cart_price(cart, items_key \\\\ :items, omit_below \\\\ 0) do
-        if cart[items_key] do
-          Enum.reduce(cart[items_key], 0, fn %{price: price}, total ->
-            if price < omit_below do
-              total
-            else
-              total + price
-            end
-          end)
-        else
-          0
-        end
-      end
-  """
-  def nesting_depth, do: nil
-
-  @doc """
   Flow control directives should be leveraged to yield compact and readable code.
 
   ## Reasoning
@@ -552,38 +502,6 @@ defmodule FreshaStyleGuide.SoftwareDesign do
 
   """
   def flow_directive_usage, do: nil
-
-  @doc """
-  The `unless` directive should never be used with an `else` block or with logical operators.
-
-  ## Reasoning
-
-  The `unless` directive is confusing and hard to reason about when used with more complex
-  conditions or an alternative code path (which could be read as "unless unless"). Therefore, in
-  such cases it should be rewritten as an `if`.
-
-  ## Examples
-
-  Preferred:
-
-      unless user.confirmed, do: raise("user is not confirmed")
-
-      if user.banned and not(user.vip) do
-        raise("user is banned")
-      else
-        confirm_action(user)
-      end
-
-  Too hard to read:
-
-      unless not(user.banned) or user.vip do
-        confirm_action(user)
-      else
-        raise("user is banned")
-      end
-
-  """
-  def unless_usage, do: nil
 
   @doc """
   Pattern matching should be preferred over line-by-line destructuring of maps and structs.
