@@ -1,5 +1,3 @@
-# Fresha style guide for Elixir
+# Deprecation warning
 
-Official style guide for Elixir and Phoenix projects at Fresha.
-
-[Open the style guide on HexDocs](https://hexdocs.pm/fresha_style_guide).
+This style guide is deprecated in favor of `mix format` and Credo checks.
